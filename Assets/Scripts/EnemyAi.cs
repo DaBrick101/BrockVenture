@@ -6,6 +6,7 @@ public class EnemyAi : MonoBehaviour
     public UnityEngine.AI.NavMeshAgent agent;
     public float health;
     public Transform player;
+    public Transform attackPoint;
     public LayerMask whatIsGround, whatIsPlayer;
 
     public Vector3 walkPoint;
@@ -54,13 +55,13 @@ public class EnemyAi : MonoBehaviour
     { 
         agent.SetDestination(transform.position);
 
+        attackPoint.LookAt(player);
         transform.LookAt(player);
 
         if (!alreadyAttacked)
         {
-            Rigidbody rb = Instantiate(projectile, transform.position, Quaternion.identity).GetComponent<Rigidbody>();
-            rb.AddForce(transform.forward * 32f, ForceMode.Impulse);
-            rb.AddForce(transform.up * 8f, ForceMode.Impulse);
+            Rigidbody rb = Instantiate(projectile, attackPoint.position, Quaternion.identity).GetComponent<Rigidbody>();
+            rb.AddForce(attackPoint.forward * 40f, ForceMode.Impulse);
 
             alreadyAttacked = true;
             Invoke(nameof(ResetAttack), timeBetweenAttacks);
@@ -71,6 +72,7 @@ public class EnemyAi : MonoBehaviour
     {
         alreadyAttacked = false;
     }
+
     private void SearchWalkPoint()
     {
         float randomZ = Random.Range(-walkPointRange, walkPointRange);
@@ -88,6 +90,7 @@ public class EnemyAi : MonoBehaviour
 
     private void DestroyEnemy()
     {
+        FindObjectOfType<UI>().AddKill();
         Destroy(gameObject);
     }
 

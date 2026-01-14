@@ -107,7 +107,7 @@ public class PlayerAi : MonoBehaviour
             }
 
             Rigidbody rb = Instantiate(projectile, attackPoint.position, attackPoint.rotation).GetComponent<Rigidbody>();
-            rb.AddForce(attackPoint.forward * 32f, ForceMode.Impulse);
+            rb.AddForce(attackPoint.forward * 40f, ForceMode.Impulse);
             //rb.AddForce(attackPoint.up * 8f, ForceMode.Impulse);
 
             alreadyAttacked = true;
@@ -132,11 +132,12 @@ public class PlayerAi : MonoBehaviour
     public void TakeDamage(int damage)
     {
         health -= damage;
-        if (health <= 0) Invoke(nameof(DestroyEnemy), 0.5f);
+        if (health <= 0) Invoke(nameof(DestroyPlayer), 0.5f);
     }
 
-    private void DestroyEnemy()
+    private void DestroyPlayer()
     {
+        FindObjectOfType<UI>().PlayerDied();
         Destroy(gameObject);
     }
 }

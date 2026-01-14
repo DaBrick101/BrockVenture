@@ -13,7 +13,7 @@ public class Bullet : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.CompareTag("Player"))
+        if (collision.gameObject.CompareTag("PlayerModel"))
         {
             PlayerAi player = collision.gameObject.GetComponent<PlayerAi>();
             if (player != null)
